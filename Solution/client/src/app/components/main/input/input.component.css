@@ -1,0 +1,5 @@
+::ng-deep .price-range-slider-container .ngx-slider .ngx-slider-selection,
+::ng-deep .ngx-slider-pointer-min,
+::ng-deep .ngx-slider-pointer-max {
+  background: #f2007d !important;
+}

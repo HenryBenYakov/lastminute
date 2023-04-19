@@ -1,0 +1,49 @@
+<div class="col-3">
+  <label>From</label>
+  <select
+    [(ngModel)]="userInputs.from"
+    class="form-select"
+    (change)="handleValChange()"
+  >
+    <option [ngValue]="'any'">Anywhere</option>
+    <option *ngFor="let code of iataCodes" value="{{ code }}">
+      {{ code }}
+    </option>
+  </select>
+</div>
+
+<div class="col-3">
+  <label>To</label>
+  <select
+    [(ngModel)]="userInputs.to"
+    class="form-select"
+    (ngModelChange)="handleValChange()"
+  >
+    <option [ngValue]="'any'">Anywhere</option>
+    <option *ngFor="let code of iataCodes" value="{{ code }}">
+      {{ code }}
+    </option>
+  </select>
+</div>
+
+<div class="col-3 d-flex align-items-center pt-3">
+  <input
+    [(ngModel)]="userInputs.directOnly"
+    (change)="handleValChange()"
+    class="form-check-input me-1"
+    type="checkbox"
+    id="directFlightCheck"
+  />
+  <label class="form-check-label" for="directFlightCheck"
+    >Direct Flight Only</label
+  >
+</div>
+
+<div class="col-3 price-range-slider-container">
+  <ngx-slider
+    class="price-range-slider"
+    [(value)]="userInputs.range.min"
+    [(highValue)]="userInputs.range.max"
+    [options]="rangeOptions"
+  ></ngx-slider>
+</div>

@@ -1,0 +1,33 @@
+<div class="card" (click)="handleClick()">
+  <div class="card-front text-center pt-3">
+    <h5 class="card-title">{{ getInfo("path") }}</h5>
+    <div class="card-body">
+      <p class="display-5">
+        {{ getInfo("price") | currency : "USD" : "symbol" : "1.0-0" }}
+      </p>
+      <ng-container *ngIf="flight.Segments[0].Legs.length > 1; else noStops">
+        <p class="display-6 fs-4">
+          {{ flight.Segments[0].Legs.length - 1 }} Stop<span
+            *ngIf="flight.Segments[0].Legs.length > 2"
+            >s</span
+          >
+        </p>
+      </ng-container>
+      <ng-template #noStops>
+        <p class="display-6 fs-4">
+          Direct Flight <span class="fs-6">(*No Stops)</span>
+        </p>
+      </ng-template>
+      <p>{{ getInfo("date") }}</p>
+    </div>
+  </div>
+  <div class="card-back" [ngClass]="{ 'card-back-visible': showFlightDetails }">
+    <div class="container text-center pt-4 fw-bolder">
+      <p class="display-5">
+        {{ getInfo("price") | currency : "USD" : "symbol" : "1.0-0" }}
+      </p>
+      <p class="display-6 fs-4">{{ getInfo("fullPath") }}</p>
+      <p class="display-6 fs-4 fw-bold">{{ getInfo("airline") }}</p>
+    </div>
+  </div>
+</div>

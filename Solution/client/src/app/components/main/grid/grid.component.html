@@ -1,0 +1,103 @@
+<div class="mb-1">
+  <app-input
+    class="row"
+    (valuesChanged)="handleValuesChanged($event)"
+  ></app-input>
+  <div class="d-flex justify-content-evenly gap-3 mt-1">
+    <div class="pt-5">
+      <span class="fw-bolder">Sort By:</span>
+      <span class="ms-3 me-1"
+        >Price:
+        <button
+          class="sort-btn"
+          [ngClass]="{
+            'sort-btn-not-selected': checkIfThisSortIsActive('price', false)
+          }"
+          (click)="handleSortChange('price', false)"
+        >
+          <i class="fa-solid fa-caret-up"></i>
+        </button>
+        <button
+          class="sort-btn"
+          [ngClass]="{
+            'sort-btn-not-selected': checkIfThisSortIsActive('price', true)
+          }"
+          (click)="handleSortChange('price', true)"
+        >
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+      </span>
+      <span class="ms-3 me-1"
+        >Stops:
+        <button
+          class="sort-btn"
+          [ngClass]="{
+            'sort-btn-not-selected': checkIfThisSortIsActive('stops', false)
+          }"
+          (click)="handleSortChange('stops', false)"
+        >
+          <i class="fa-solid fa-caret-up"></i>
+        </button>
+        <button
+          class="sort-btn"
+          [ngClass]="{
+            'sort-btn-not-selected': checkIfThisSortIsActive('stops', true)
+          }"
+          (click)="handleSortChange('stops', true)"
+        >
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row g-3">
+  <ng-container
+    *ngIf="
+      flights
+        | filter : userInputs : 'destination'
+        | filter : userInputs : 'direct'
+        | filter : userInputs : 'price' as flights
+    "
+  >
+    <div>
+      <p class="text-center display-6 fs-6 fw-bolder pt-3">
+        {{ flights.length }} Results
+      </p>
+    </div>
+    <ng-container
+      *ngFor="
+        let flight of flights
+          | sort
+            : currentlySortingBy
+            : sortReverserIndicators[currentlySortingBy];
+        index as i
+      "
+    >
+      <app-card
+        *ngIf="i < maxCards * currentPage && i >= maxCards * (currentPage - 1)"
+        class="col-sm-6 col-md-4 col-lg-3 col-12 mb-4"
+        [flight]="flight"
+      ></app-card>
+    </ng-container>
+    <div class="d-flex justify-content-center gap-3">
+      <button
+        class="page-btn"
+        (click)="handlePageChange('dec')"
+        [disabled]="currentPage == 1"
+      >
+        Prev
+      </button>
+      <p class="pt-3">
+        {{ currentPage }}/{{ math.floor(flights.length / maxCards) + 1 }}
+      </p>
+      <button
+        class="page-btn"
+        (click)="handlePageChange('inc')"
+        [disabled]="currentPage >= flights.length / maxCards"
+      >
+        Next
+      </button>
+    </div>
+  </ng-container>
+</div>
